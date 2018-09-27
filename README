@@ -1,0 +1,49 @@
+styling and code quality are important for a number of reasons:
+
+    Having consistent and clean code makes you look like a better coder. Many companies have issues with technical debt. If you are looking to get hired, they want engineers that won’t exacerbate that problem.
+    When code is more readable it speeds up the development process. Once the brain gets used to code formatted a certain way, it becomes much easier to figure what is going on.
+    Best practices enforced by code-quality increase performance. Javascript can do some weird stuff. It is the wild west of code languages. Let a linter take care of that headache.
+
+
+run following command
+
+    npm install --save-dev eslint prettier husky lint-staged
+    npx install-peerdeps --dev eslint-config-airbnb
+    npm install --save-dev eslint-config-prettier eslint-plugin-prettier
+    npm audit fix
+
+
+Update your package.json like this:
+
+package.json
+
+{
+  "scripts": {
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "jest --bail --findRelatedTests",
+      "prettier --write",
+      "git add"
+    ],
+    "*.scss": ["stylelint --fix", "prettier --write", "git add"]
+  }
+}
+
+
+This configuration will perform the following steps:
+
+Every time you commit a .js file:
+
+    Run ESLint with autofixing on files you are committing.
+    Run Jest tests related to files you are committing.
+    Format files you are committing with Prettier.
+    Add changes caused by autofixing and reformatting to your commit.
+
+Every time you commit an .scss file:
+
+    Run stylelint with autofixing on files you are committing.
+    Format files you are committing with Prettier.
+    Add changes caused by reformatting to your commit.
